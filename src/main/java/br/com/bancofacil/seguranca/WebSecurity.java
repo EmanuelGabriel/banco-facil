@@ -22,8 +22,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
+	CustomUserDetailsService customUserDetailsService;
 
+	@Autowired
 	private JwtAuthenticationPontoDeEntrada authenticationPontoDeEntrada;
 
 	@Bean
@@ -53,8 +54,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationPontoDeEntrada)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests().antMatchers("/api/v1/banco/**").permitAll().antMatchers("/api/v1/agencias/**")
-				.permitAll().antMatchers(HttpMethod.POST, "/api/bank-accounts").permitAll()
-				.antMatchers("/api/auth/**").permitAll().anyRequest().authenticated();
+				.permitAll().antMatchers(HttpMethod.POST, "/api/bank-accounts").permitAll().antMatchers("/api/auth/**")
+				.permitAll().anyRequest().authenticated();
 
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
